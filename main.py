@@ -104,8 +104,8 @@ def main( links_file, output_dir ):
         time.sleep( 1 )
         continue
 
-    # print()
-    # write_updated_links( links_file, links )
+    print()
+    write_updated_links( links_file, links )
 
     print( '[DONE]' )
     return
