@@ -92,9 +92,11 @@ def main( links_file, output_dir ):
 
 
             new_links = read_links( links_file )
+            for key in links.keys():
+                new_links[key].status = links[key].status
+                continue
+
             if new_links.keys() != links.keys():
-                for key in links.keys():
-                    new_links[key].status = links[key].status
                 break
 
             continue
@@ -102,8 +104,8 @@ def main( links_file, output_dir ):
         time.sleep( 1 )
         continue
 
-    print()
-    write_updated_links( links_file, links )
+    # print()
+    # write_updated_links( links_file, links )
 
     print( '[DONE]' )
     return
