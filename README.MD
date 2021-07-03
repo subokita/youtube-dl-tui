@@ -9,5 +9,7 @@ and refresh it
 
 
 ## TODOS
+
 [ ] Handle Sigterm
+
 [ ] Handle errors
