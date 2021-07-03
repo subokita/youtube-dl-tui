@@ -64,7 +64,10 @@ def main( links_file, output_dir ):
         output_dir: where you want to download the files
     '''
     new_links  = read_links( links_file )
-    downloader = Downloader( output_dir)
+    downloader = Downloader( output_dir )
+
+    downloader.fetch_titles( new_links )
+    write_updated_links( links_file, new_links )
 
 
     while True:
@@ -90,6 +93,8 @@ def main( links_file, output_dir ):
 
             new_links = read_links( links_file )
             if new_links.keys() != links.keys():
+                for key in links.keys():
+                    new_links[key].status = links[key].status
                 break
 
             continue
