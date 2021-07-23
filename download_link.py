@@ -2,10 +2,17 @@
 # -*- coding: utf-8 -*-
 
 from status_type import StatusType
+import re
+
+
+MAX_TITLE_LENGTH = 100
 
 class DownloadLink( object ):
     """
-    A Download link consist the information
+    A Download link consist the information of a download url:
+    - url   : the url itself
+    - status: whether it's downloaded, not yet, or encountered an error
+    - title : the title of the video
     """
 
     def __init__( self, youtube_url, title = None ):
@@ -13,8 +20,14 @@ class DownloadLink( object ):
 
         self._url    = youtube_url
         self._status = StatusType.NOT_STARTED
-        self._title  = title
+        self._title  = DownloadLink.sanitize_title( title )
         return
+
+
+    @classmethod
+    def sanitize_title( cls, title ):
+        return re.sub( r'[^A-Za-z0-9._-]', ' ', title.replace( "https://t.co/", "" ) )\
+                 .strip()[:MAX_TITLE_LENGTH] if title else None
 
 
     @property
@@ -37,7 +50,7 @@ class DownloadLink( object ):
 
     @title.setter
     def title( self, value ):
-        self._title = value.strip() if value else None
+        self._title = DownloadLink.sanitize_title( value )
         return
 
 

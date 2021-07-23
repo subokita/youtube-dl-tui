@@ -5,6 +5,6 @@ import enum
 
 @enum.unique
 class StatusType( enum.Enum ):
-    NOT_STARTED = "⚠️ "
+    NOT_STARTED = "⚠️"
     ERROR       = "❌"
     DONE        = "✅"
