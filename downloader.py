@@ -21,9 +21,10 @@ class YoutubeDLLogger( object ):
 
 
 class Downloader( object ):
-    def __init__( self, output_dir, cookie ):
+    def __init__( self, output_dir, cookie, signal_handler ):
         super( Downloader, self ).__init__()
 
+        self._signal_handler = signal_handler
         self._cookie     = cookie
         self._output_dir = output_dir
         self._spinner    = Halo( text = "", spinner = 'dots' )
@@ -64,6 +65,9 @@ class Downloader( object ):
         scroll = 0
 
         def progress_hook( download ):
+            if self._signal_handler.terminate:
+                exit( 1 )
+
             nonlocal scroll
 
             title_length = os.get_terminal_size().columns - 36

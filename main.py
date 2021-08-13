@@ -67,11 +67,14 @@ def print_tasks( links ):
     return
 
 
+
+
 @click.command()
 @click.argument( 'links_file' )
 @click.argument( 'output_dir' )
 @click.option( '-c', '--cookies', type = click.Path() )
 def main( links_file, output_dir, cookies ):
+
     '''
     Args:
         links_file: a txt file containing list of youtube urls separated by
@@ -84,8 +87,9 @@ def main( links_file, output_dir, cookies ):
     '''
 
     signal_handler = SignalHandler()
+
     new_links      = read_links( links_file )
-    downloader     = Downloader( output_dir, cookies )
+    downloader     = Downloader( output_dir, cookies, signal_handler )
 
     downloader.fetch_titles( new_links )
     write_updated_links( links_file, new_links )
