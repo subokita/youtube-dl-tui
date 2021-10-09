@@ -113,7 +113,7 @@ class Downloader( object ):
 
     def download( self, link ):
         options = {
-            'format'        : 'mp4',
+            'format'        : 'best',
             # 'outtmpl'       :  self._output_dir + '/%(title)s-%(id)s.%(ext)s',
             'outtmpl'       :  self._output_dir + f'/{link.title}-%(id)s.%(ext)s',
             'logger'        : YoutubeDLLogger(),
