@@ -26,7 +26,7 @@ class DownloadLink( object ):
 
     @classmethod
     def sanitize_title( cls, title ):
-        return re.sub( r':', ' ', title.replace( "https://t.co/", "" ).replace( "https://twitter.com/", "" ) )\
+        return re.sub( r'[:/]', ' ', title.replace( "https://t.co/", "" ).replace( "https://twitter.com/", "" ) )\
                  .strip()[:MAX_TITLE_LENGTH] if title else None
 
 

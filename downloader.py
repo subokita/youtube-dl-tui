@@ -1,11 +1,12 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import youtube_dl
+import yt_dlp
 import os
 import time
 from halo        import Halo
 from collections import deque
+from status_type import StatusType
 
 class YoutubeDLLogger( object ):
     def debug( self, message ):
@@ -40,7 +41,7 @@ class Downloader( object ):
 
 
     def fetch_title( self, link ):
-        with youtube_dl.YoutubeDL( self._fetch_title_options ) as downloader:
+        with yt_dlp.YoutubeDL( self._fetch_title_options ) as downloader:
             entry = downloader.extract_info( link.url )['title']
 
         return entry.strip()
@@ -51,10 +52,21 @@ class Downloader( object ):
             self._spinner.start( "Fetching titles" )
 
             if not link.title:
-                link.title = self.fetch_title( link )
+
+                try:
+                    link.title = self.fetch_title( link )
+                    self._spinner.succeed( link.title )
+
+                    pass
+                except Exception as e:
+                    # print( f"[ERROR] while trying to fetch title for {link}" )
+                    link.status = StatusType.ERROR
+                    self._spinner.fail( link.url )
+                    link.title = f"[ERROR] fetching title for {link.url}"
+                    # print( e )
+
                 pass
 
-            self._spinner.succeed( link.title )
             continue
 
         self._spinner.stop()
@@ -109,7 +121,7 @@ class Downloader( object ):
             "cookiefile"    : self._cookie
         }
 
-        with youtube_dl.YoutubeDL( options ) as downloader:
+        with yt_dlp.YoutubeDL( options ) as downloader:
             downloader.download( [link.url] )
 
 

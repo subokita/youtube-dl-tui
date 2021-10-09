@@ -3,7 +3,6 @@
 
 from __future__ import unicode_literals
 import os
-import youtube_dl
 import time
 import click
 import signal
