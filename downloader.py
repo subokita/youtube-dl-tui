@@ -98,7 +98,12 @@ class Downloader( object ):
                 speed        = download['_speed_str']
                 percentage   = download['_percent_str']
                 downloaded   = download['downloaded_bytes'] / 1048576
-                total        = download['total_bytes'] / 1048576
+
+                if 'total_bytes' in download.keys():
+                    total = download['total_bytes'] / 1048576
+                else:
+                    total = download['total_bytes_estimate'] / 1048576
+
                 title        = deque( link.title.strip() + " " )
                 title.rotate( -scroll )
 
